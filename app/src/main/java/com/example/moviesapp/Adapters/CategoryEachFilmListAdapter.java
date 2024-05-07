@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.moviesapp.Domain.Genre;
 import com.example.moviesapp.Domain.GenreItem;
 import com.example.moviesapp.R;
 
@@ -16,10 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryEachFilmListAdapter extends RecyclerView.Adapter<CategoryEachFilmListAdapter.ViewHolder> {
-    List<String> items;
+    List<Genre> items;
     Context context;
 
-    public CategoryEachFilmListAdapter(List<String> items) {
+    public CategoryEachFilmListAdapter(List<Genre> items) {
         this.items = items;
     }
 
@@ -34,7 +35,8 @@ public class CategoryEachFilmListAdapter extends RecyclerView.Adapter<CategoryEa
 
     @Override
     public void onBindViewHolder(@NonNull CategoryEachFilmListAdapter.ViewHolder holder, int position) {
-        holder.titleText.setText(items.get(position));
+        Genre genre = items.get(position);
+        holder.titleText.setText(genre.getName());
     }
 
     @Override

@@ -38,23 +38,24 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull MovieListAdapter.ViewHolder holder, int position) {
-        holder.titleText.setText(items.getData().get(position).getTitle());
+        holder.titleText.setText(items.getResults().get(position).getTitle());
         RequestOptions requestOptions = new RequestOptions();
         requestOptions = requestOptions.transform(new CenterCrop(), new RoundedCorners(30));
 
-        Glide.with(context).load(items.getData().get(position).getPoster())
+        Glide.with(context).
+                load("https://image.tmdb.org/t/p/w500/" + items.getResults().get(position).getPosterPath())
                 .apply(requestOptions)
                 .into(holder.pic);
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), DetailsActivity.class);
-            intent.putExtra("id", items.getData().get(position).getId());
+            intent.putExtra("id", items.getResults().get(position).getId());
             context.startActivity(intent);
         });
     }
 
     @Override
     public int getItemCount() {
-        return items.getData().size();
+        return items.getResults().size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

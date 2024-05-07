@@ -1,33 +1,54 @@
 package com.example.moviesapp.Domain;
-
 import java.util.List;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-
 public class ListMovie {
 
-    @SerializedName("data")
+    @SerializedName("page")
     @Expose
-    private List<Datum> data;
-    @SerializedName("metadata")
+    private Integer page;
+    @SerializedName("results")
     @Expose
-    private Metadata metadata;
+    private List<Result> results;
+    @SerializedName("total_pages")
+    @Expose
+    private Integer totalPages;
+    @SerializedName("total_results")
+    @Expose
+    private Integer totalResults;
 
-    public List<Datum> getData() {
-        return data;
+    public Integer getPage() {
+        return page;
     }
 
-    public void setData(List<Datum> data) {
-        this.data = data;
+    public void setPage(Integer page) {
+        this.page = page;
     }
 
-    public Metadata getMetadata() {
-        return metadata;
+    public List<Result> getResults() {
+        return results;
     }
 
-    public void setMetadata(Metadata metadata) {
-        this.metadata = metadata;
+    public void setResults(List<Result> results) {
+        this.results = results;
+    }
+
+    public Integer getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(Integer totalPages) {
+        this.totalPages = totalPages;
+    }
+
+    public Integer getTotalResults() {
+        return totalResults;
+    }
+
+    public void setTotalResults(Integer totalResults) {
+        this.totalResults = totalResults;
     }
 
 }

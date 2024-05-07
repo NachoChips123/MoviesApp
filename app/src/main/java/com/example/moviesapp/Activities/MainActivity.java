@@ -22,6 +22,7 @@ import com.example.moviesapp.Adapters.CategoryListAdapter;
 import com.example.moviesapp.Adapters.MovieListAdapter;
 import com.example.moviesapp.Adapters.SliderAdapter;
 import com.example.moviesapp.Domain.GenreItem;
+import com.example.moviesapp.Domain.Genres;
 import com.example.moviesapp.Domain.ListMovie;
 import com.example.moviesapp.Domain.Slider;
 import com.example.moviesapp.R;
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private void sendRequestBestMovies() {
         mRequestQueue = Volley.newRequestQueue(this);
         loading1.setVisibility(View.VISIBLE);
-        mStringRequest = new StringRequest(Request.Method.GET, "https://moviesapi.ir/api/v1/movies?page=1", response -> {
+        mStringRequest = new StringRequest(Request.Method.GET, "https://api.themoviedb.org/3/movie/now_playing?api_key=4eea5a36d0b30b1493f4c0abae06cae4", response -> {
             Gson gson = new Gson();
             loading1.setVisibility(View.GONE);
             ListMovie items = gson.fromJson(response, ListMovie.class);
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     private void sendRequestUpComing() {
         mRequestQueue = Volley.newRequestQueue(this);
         loading3.setVisibility(View.VISIBLE);
-        mStringRequest3 = new StringRequest(Request.Method.GET, "https://moviesapi.ir/api/v1/movies?page=5", response -> {
+        mStringRequest3 = new StringRequest(Request.Method.GET, "https://api.themoviedb.org/3/movie/top_rated?api_key=4eea5a36d0b30b1493f4c0abae06cae4", response -> {
             Gson gson = new Gson();
             loading3.setVisibility(View.GONE);
             ListMovie items = gson.fromJson(response, ListMovie.class);
@@ -89,13 +90,14 @@ public class MainActivity extends AppCompatActivity {
     private void sendRequestCategory() {
         mRequestQueue = Volley.newRequestQueue(this);
         loading2.setVisibility(View.VISIBLE);
-        mStringRequest2 = new StringRequest(Request.Method.GET, "https://moviesapi.ir/api/v1/genres", response -> {
+        mStringRequest2 = new StringRequest(Request.Method.GET, "https://api.themoviedb.org/3/genre/movie/list?api_key=4eea5a36d0b30b1493f4c0abae06cae4", response -> {
             Gson gson = new Gson();
             loading2.setVisibility(View.GONE);
-            ArrayList<GenreItem> catlist = gson.fromJson(response, new TypeToken<ArrayList<GenreItem>>() {
-                    }.getType());
-            adapterCategory = new CategoryListAdapter(catlist);
-            recyclerViewCategory.setAdapter(adapterCategory);
+            Genres genres = gson.fromJson(response, Genres.class);
+            if (genres != null && genres.getGenres() != null) {
+                adapterCategory = new CategoryListAdapter((ArrayList<GenreItem>) genres.getGenres());
+                recyclerViewCategory.setAdapter(adapterCategory);
+            }
         }, error -> {
             loading2.setVisibility(View.GONE);
             Log.i("rami", "onErrorResponse: " + error.toString());
